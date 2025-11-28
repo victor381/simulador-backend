@@ -43,4 +43,3 @@ ENTRYPOINT ["dumb-init", "--"]
 
 # Comando de inicialização
 CMD ["node", "index.js"]
-
