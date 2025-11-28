@@ -12,9 +12,16 @@ WORKDIR /app
 
 # Copiar arquivos de dependências
 COPY package*.json ./
+COPY package-lock.json* ./
 
 # Instalar dependências de produção
-RUN npm ci --only=production && npm cache clean --force
+# Usa npm ci se package-lock.json existir, caso contrário usa npm install
+RUN if [ -f package-lock.json ]; then \
+      npm ci --omit=dev; \
+    else \
+      npm install --omit=dev; \
+    fi && \
+    npm cache clean --force
 
 # Copiar código da aplicação
 COPY . .
